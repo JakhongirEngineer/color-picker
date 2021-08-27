@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./ColorBox.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
+import { call } from "./colorHelpers";
+
 function ColorBox({ backgroundColor, name }) {
   const [copied, setCopied] = useState(false);
 
