@@ -40,6 +40,11 @@ function Palette(props) {
           </IconButton>,
         ]}
       />
+
+      <footer className="Palette-footer">
+        {props.palette.paletteName}
+        <span className="Palette-footer-emoji">{props.palette.emoji}</span>
+      </footer>
     </div>
   );
 }
