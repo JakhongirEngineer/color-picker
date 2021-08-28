@@ -5,7 +5,7 @@ import ColorBox from "./ColorBox";
 import Navbar from "./Navbar";
 import "./Palette.css";
 
-function Palette(props) {
+function Palette({ palette }) {
   const [level, setLevel] = useState(500);
   const [format, setFormat] = useState("hex");
   const [openSnackbar, setOpenSnackbar] = useState(true);
@@ -14,7 +14,7 @@ function Palette(props) {
     setOpenSnackbar(true);
   }, [format]);
 
-  const colorBoxes = props.palette.colors[level].map((color) => {
+  const colorBoxes = palette.colors[level].map((color) => {
     return <ColorBox backgroundColor={color[format]} name={color.name} />;
   });
   return (
@@ -42,8 +42,8 @@ function Palette(props) {
       />
 
       <footer className="Palette-footer">
-        {props.palette.paletteName}
-        <span className="Palette-footer-emoji">{props.palette.emoji}</span>
+        {palette.paletteName}
+        <span className="Palette-footer-emoji">{palette.emoji}</span>
       </footer>
     </div>
   );
