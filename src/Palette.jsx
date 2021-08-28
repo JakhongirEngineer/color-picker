@@ -13,13 +13,15 @@ function Palette(props) {
   return (
     <div className="Palette">
       {/* header */}
-      <Slider
-        value={level}
-        min={100}
-        max={900}
-        step={100}
-        onChange={(val) => setLevel(val)}
-      />
+      <div className="slider">
+        <Slider
+          value={level}
+          min={100}
+          max={900}
+          step={100}
+          onChange={(val) => setLevel(val)}
+        />
+      </div>
 
       <div className="Palette-colors">{colorBoxes}</div>
       {/* footer */}
