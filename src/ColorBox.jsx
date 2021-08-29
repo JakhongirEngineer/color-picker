@@ -4,7 +4,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import { useHistory } from "react-router-dom";
 
-function ColorBox({ backgroundColor, name }) {
+function ColorBox({ backgroundColor, name, paletteId, colorId }) {
   const [copied, setCopied] = useState(false);
   const history = useHistory();
 
@@ -40,7 +40,7 @@ function ColorBox({ backgroundColor, name }) {
         <span
           className="see-more"
           onClick={(e) => {
-            history.push("/");
+            history.push(`/palette/${paletteId}/${colorId}`);
             e.stopPropagation();
           }}
         >

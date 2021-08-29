@@ -13,9 +13,16 @@ function Palette({ palette }) {
   useEffect(() => {
     setOpenSnackbar(true);
   }, [format]);
-
+  console.log("palette: ", palette);
   const colorBoxes = palette.colors[level].map((color) => {
-    return <ColorBox backgroundColor={color[format]} name={color.name} />;
+    return (
+      <ColorBox
+        backgroundColor={color[format]}
+        name={color.name}
+        paletteId={palette.id}
+        colorId={color.id}
+      />
+    );
   });
   return (
     <div className="Palette">
