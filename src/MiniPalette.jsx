@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -16,6 +17,10 @@ const useStyles = makeStyles({
   },
   colors: {
     backgroundColor: "grey",
+    height: "100px",
+    width: "100%",
+    borderRadius: "5px",
+    overflow: "hidden",
   },
   title: {
     display: "flex",
@@ -31,6 +36,14 @@ const useStyles = makeStyles({
     marginLeft: "0.5rem",
     fontSize: "1.5rem",
   },
+  miniColor: {
+    height: "25%",
+    width: "20%",
+    display: "inline-block",
+    position: "relative",
+    margin: "0 auto",
+    marginBottom: "-3.5px",
+  },
 });
 
 function MiniPalette(props) {
@@ -38,13 +51,28 @@ function MiniPalette(props) {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <div className={classes.colors}> colors</div>
+    <Link
+      to={`/palette/${id}`}
+      style={{ textDecoration: "none", color: "white" }}
+    >
+      <div className={classes.root}>
+        <div className={classes.colors}>
+          {colors.map((color) => {
+            return (
+              <div
+                className={classes.miniColor}
+                style={{ backgroundColor: color.color }}
+                key={color.paletteName}
+              />
+            );
+          })}
+        </div>
 
-      <h5 className={classes.title}>
-        {paletteName} <span className={classes.emoji}>{emoji}</span>
-      </h5>
-    </div>
+        <h5 className={classes.title}>
+          {paletteName} <span className={classes.emoji}>{emoji}</span>
+        </h5>
+      </div>
+    </Link>
   );
 }
 

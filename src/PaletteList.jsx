@@ -1,6 +1,5 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import { Link } from "react-router-dom";
 import MiniPalette from "./MiniPalette";
 
 const useStyles = makeStyles({
@@ -9,7 +8,7 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "center",
     alignItems: "flex-start",
-    height: "100%",
+    height: "100vh",
   },
   container: {
     width: "50%",
@@ -17,13 +16,13 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignItems: "flex-start",
     flexWrap: "wrap",
-    border: "1px solid white",
   },
   nav: {
     display: "flex",
     justifyContent: "space-between",
     width: "100%",
-    backgroundColor: "green",
+    color: "white",
+    fontSize: "2rem",
   },
   palettes: {
     boxSizing: "border-box",
