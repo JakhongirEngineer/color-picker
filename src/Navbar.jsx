@@ -1,14 +1,23 @@
 import React, { useState } from "react";
 import "rc-slider/assets/index.css";
 import Slider from "rc-slider";
-import { MenuItem, Select } from "@material-ui/core";
+import { MenuItem, Select, makeStyles } from "@material-ui/core";
 
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 
+const useStyles = makeStyles({
+  root: (props) => ({
+    backgroundColor: props.backgroundColor,
+  }),
+});
+
 function Navbar({ level, setLevel, format, setFormat }) {
+  const styleProps = { backgroundColor: "black" };
+  const classes = useStyles(styleProps);
+
   return (
-    <header className="Navbar">
+    <header className={`Navbar ${classes.root}`}>
       <div className="logo">
         <Link to="/">ReactColorPicker</Link>
       </div>
