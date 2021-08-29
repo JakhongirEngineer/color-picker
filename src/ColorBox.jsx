@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import "./ColorBox.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-import { call } from "./colorHelpers";
+import { useHistory } from "react-router-dom";
 
 function ColorBox({ backgroundColor, name }) {
   const [copied, setCopied] = useState(false);
+  const history = useHistory();
 
   const handleCopy = () => {
     setCopied(true);
@@ -36,7 +37,16 @@ function ColorBox({ backgroundColor, name }) {
             {copied ? "Copied" : "Copy"}{" "}
           </button>
         </div>
-        <span className="see-more"> MORE </span>
+        <span
+          className="see-more"
+          onClick={(e) => {
+            history.push("/");
+            e.stopPropagation();
+          }}
+        >
+          {" "}
+          MORE{" "}
+        </span>
       </div>
     </CopyToClipboard>
   );

@@ -24,6 +24,11 @@ function App() {
           />
         )}
       />
+      <Route
+        exact
+        path="/palette/:paletteId/:colorId"
+        render={() => <h1>Single color page</h1>}
+      />
     </Switch>
     // <div className="App">
     //   <Palette palette={generatePalette(seedColors[1])} />
