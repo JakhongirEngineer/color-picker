@@ -8,6 +8,10 @@
   margin-bottom: -3.5px;
 }
 
+.SingleColorPalette .ColorBox {
+  height: 50%;
+}
+
 .copy-overlay {
   opacity: 0;
   width: 100%;
@@ -119,4 +123,12 @@
 .copy-msg p {
   font-size: 2rem;
   font-weight: 100;
+}
+
+.go-back {
+  background-color: black;
+}
+
+.go-back .copy-button {
+  opacity: 1;
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import ColorBox from "./ColorBox";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
@@ -7,6 +8,8 @@ import Navbar from "./Navbar";
 function SingleColorPalette({ palette, colorId }) {
   const [format, setFormat] = useState("hex");
   const [shades, setShades] = useState();
+  const history = useHistory();
+
   useEffect(() => {
     setShades(gatherShades(palette, colorId));
   }, []);
@@ -23,7 +26,7 @@ function SingleColorPalette({ palette, colorId }) {
   };
 
   return (
-    <div className="Palette">
+    <div className="Palette SingleColorPalette">
       <Navbar format={format} setFormat={setFormat} showSlider={false} />
 
       <div className="Palette-colors">
@@ -39,6 +42,9 @@ function SingleColorPalette({ palette, colorId }) {
               />
             );
           })}
+        <div className="ColorBox go-back" onClick={() => history.goBack()}>
+          <span className="copy-button">go back</span>
+        </div>
       </div>
       <Footer paletteName={palette.paletteName} emoji={palette.emoji} />
     </div>
