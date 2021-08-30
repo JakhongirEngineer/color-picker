@@ -3,6 +3,7 @@ import "./ColorBox.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import { useHistory } from "react-router-dom";
+import chroma from "chroma-js";
 
 function ColorBox({
   backgroundColor,
@@ -13,6 +14,7 @@ function ColorBox({
 }) {
   const [copied, setCopied] = useState(false);
   const history = useHistory();
+  const isDark = chroma(backgroundColor).luminance() < 0.1;
 
   const handleCopy = () => {
     setCopied(true);
@@ -29,23 +31,31 @@ function ColorBox({
           className={`copy-overlay ${copied && "copy-overlay-copied"}`}
         />
         <div className={`copy-msg ${copied && "copy-msg-copied"}`}>
-          <h1>Copied</h1>
-          <p>{backgroundColor}</p>
+          <h1 className={isDark ? "light-text" : "dark-text"}>Copied</h1>
+          <p className={isDark ? "light-text" : "dark-text"}>
+            {backgroundColor}
+          </p>
         </div>
 
         <div className="copy-container">
           <div className="box-content">
-            <span>{name}</span>
+            <span className={isDark && "light-text"}>{name}</span>
           </div>
 
-          <button className="copy-button">
+          <button
+            className={
+              isDark ? "light-text copy-button" : "dark-text copy-button"
+            }
+          >
             {" "}
             {copied ? "Copied" : "Copy"}{" "}
           </button>
         </div>
         {showLink && (
           <span
-            className="see-more"
+            className={`${
+              isDark ? "light-text see-more" : "see-more dark-text"
+            }`}
             onClick={(e) => {
               history.push(`/palette/${paletteId}/${colorId}`);
               e.stopPropagation();
