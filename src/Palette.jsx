@@ -4,6 +4,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import ColorBox from "./ColorBox";
 import Navbar from "./Navbar";
 import "./Palette.css";
+import Footer from "./Footer";
 
 function Palette({ palette }) {
   const [level, setLevel] = useState(500);
@@ -48,10 +49,7 @@ function Palette({ palette }) {
         ]}
       />
 
-      <footer className="Palette-footer">
-        {palette.paletteName}
-        <span className="Palette-footer-emoji">{palette.emoji}</span>
-      </footer>
+      <Footer paletteName={palette.paletteName} emoji={palette.emoji} />
     </div>
   );
 }

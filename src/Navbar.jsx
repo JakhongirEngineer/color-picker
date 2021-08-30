@@ -12,8 +12,8 @@ const useStyles = makeStyles({
   }),
 });
 
-function Navbar({ level, setLevel, format, setFormat }) {
-  const styleProps = { backgroundColor: "black" };
+function Navbar({ level, setLevel, format, setFormat, showSlider = true }) {
+  const styleProps = { backgroundColor: "#e9e9e9" };
   const classes = useStyles(styleProps);
 
   return (
@@ -22,18 +22,20 @@ function Navbar({ level, setLevel, format, setFormat }) {
         <Link to="/">ReactColorPicker</Link>
       </div>
 
-      <div className="slider-container">
-        <span>Level: {level}</span>
-        <div className="slider">
-          <Slider
-            value={level}
-            min={100}
-            max={900}
-            step={100}
-            onChange={(val) => setLevel(val)}
-          />
+      {showSlider && (
+        <div className="slider-container">
+          <span>Level: {level}</span>
+          <div className="slider">
+            <Slider
+              value={level}
+              min={100}
+              max={900}
+              step={100}
+              onChange={(val) => setLevel(val)}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div className="select-container">
         <Select
           onChange={(e) => setFormat(e.target.value)}

@@ -1,8 +1,11 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import ColorBox from "./ColorBox";
+import Footer from "./Footer";
+import Navbar from "./Navbar";
 
-function SingleColorPalette({ palette, paletteId, colorId }) {
+function SingleColorPalette({ palette, colorId }) {
+  const [format, setFormat] = useState("hex");
   const [shades, setShades] = useState();
   useEffect(() => {
     setShades(gatherShades(palette, colorId));
@@ -21,7 +24,7 @@ function SingleColorPalette({ palette, paletteId, colorId }) {
 
   return (
     <div className="Palette">
-      <h1>single color</h1>
+      <Navbar format={format} setFormat={setFormat} showSlider={false} />
 
       <div className="Palette-colors">
         {shades &&
@@ -30,14 +33,14 @@ function SingleColorPalette({ palette, paletteId, colorId }) {
             return (
               <ColorBox
                 key={shade.name}
-                backgroundColor={shade.hex}
+                backgroundColor={shade[format]}
                 name={shade.name}
                 showLink={false}
               />
             );
           })}
       </div>
-      {/* <footer>footer</footer> */}
+      <Footer paletteName={palette.paletteName} emoji={palette.emoji} />
     </div>
   );
 }
