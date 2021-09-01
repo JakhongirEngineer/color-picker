@@ -16,6 +16,10 @@ import { ChromePicker } from "react-color";
 import { useState } from "react";
 import DraggableColorBox from "./DraggableColorBox";
 
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
 const drawerWidth = 400;
 
 const useStyles = makeStyles((theme) => ({
@@ -77,12 +81,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewPaletteForm() {
+function NewPaletteForm({ addPalette }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [currentColor, setCurrentColor] = useState("red");
-  const [colors, setColors] = useState(["purple"]);
+  const [colors, setColors] = useState([]);
+  const [newName, setNewName] = useState("");
+  const history = useHistory();
+
+  useEffect(() => {
+    ValidatorForm.addValidationRule("isColorNameUnique", (value) => {
+      return colors.every(
+        ({ name }) => name.toLowerCase() !== value.toLowerCase()
+      );
+    });
+
+    ValidatorForm.addValidationRule("isColorUnique", (value) => {
+      return colors.every(
+        ({ color }) => color.toLowerCase() !== value.toLowerCase()
+      );
+    });
+
+    // return () => {
+    //   ValidatorForm.removeValidationRule("isColorNameUnique");
+    // };
+  });
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -92,8 +116,29 @@ function NewPaletteForm() {
     setOpen(false);
   };
 
-  const handleAddNewColor = (newColor) => {
+  const handleAddNewColor = (colorToAdd) => {
+    const newColor = {
+      color: colorToAdd,
+      name: newName,
+    };
     setColors([...colors, newColor]);
+  };
+
+  const handleChange = (e) => {
+    setNewName(e.target.value);
+  };
+
+  const handleAddPalette = () => {
+    let paletteName = "Test new Palette";
+
+    let newPalette = {
+      paletteName: paletteName,
+      id: paletteName.toLowerCase().replace(/ /g, "-"),
+      emoji: "(:)",
+      colors: colors,
+    };
+    addPalette(newPalette);
+    history.push("/");
   };
 
   return (
@@ -104,6 +149,7 @@ function NewPaletteForm() {
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
+        color="default"
       >
         <Toolbar>
           <IconButton
@@ -116,8 +162,15 @@ function NewPaletteForm() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Persistent drawer
+            New Palette
           </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleAddPalette}
+          >
+            Save Palette
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -148,14 +201,26 @@ function NewPaletteForm() {
           color={currentColor}
           onChangeComplete={(newColor) => setCurrentColor(newColor.hex)}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ backgroundColor: currentColor }}
-          onClick={() => handleAddNewColor(currentColor)}
-        >
-          Add Color
-        </Button>
+        <ValidatorForm onSubmit={() => handleAddNewColor(currentColor)}>
+          <TextValidator
+            value={newName}
+            onChange={handleChange}
+            validators={["required", "isColorNameUnique", "isColorUnique"]}
+            errorMessages={[
+              "this field is required",
+              "color name must be unique",
+              "color has already been taken",
+            ]}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ backgroundColor: currentColor }}
+            type="submit"
+          >
+            Add Color
+          </Button>
+        </ValidatorForm>
       </Drawer>
       <main
         className={clsx(classes.content, {
@@ -166,7 +231,7 @@ function NewPaletteForm() {
 
         {/* <div> */}
         {colors.map((color) => {
-          return <DraggableColorBox color={color} />;
+          return <DraggableColorBox color={color.color} name={color.name} />;
         })}
         {/* </div> */}
       </main>
