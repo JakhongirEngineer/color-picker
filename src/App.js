@@ -20,7 +20,9 @@ function App() {
       <Route
         exact
         path="/palette/new"
-        render={() => <NewPaletteForm addPalette={addPalette} />}
+        render={() => (
+          <NewPaletteForm addPalette={addPalette} palettes={palettes} />
+        )}
       />
       <Route
         exact

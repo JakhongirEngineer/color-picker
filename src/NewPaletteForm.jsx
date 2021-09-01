@@ -14,11 +14,12 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { Button } from "@material-ui/core";
 import { ChromePicker } from "react-color";
 import { useState } from "react";
-import DraggableColorBox from "./DraggableColorBox";
 
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import DraggableColorList from "./DraggableColorList";
+import { arrayMove } from "react-sortable-hoc";
 
 const drawerWidth = 400;
 
@@ -81,19 +82,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewPaletteForm({ addPalette }) {
+function NewPaletteForm({ addPalette, palettes }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [currentColor, setCurrentColor] = useState("red");
   const [colors, setColors] = useState([]);
   const [newName, setNewName] = useState("");
+  const [newPaletteName, setNewPaletteName] = useState("");
   const history = useHistory();
 
   useEffect(() => {
     ValidatorForm.addValidationRule("isColorNameUnique", (value) => {
       return colors.every(
         ({ name }) => name.toLowerCase() !== value.toLowerCase()
+      );
+    });
+
+    ValidatorForm.addValidationRule("isPaletteNameUnique", (value) => {
+      return palettes.every(
+        ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
       );
     });
 
@@ -124,21 +132,27 @@ function NewPaletteForm({ addPalette }) {
     setColors([...colors, newColor]);
   };
 
-  const handleChange = (e) => {
-    setNewName(e.target.value);
-  };
-
   const handleAddPalette = () => {
-    let paletteName = "Test new Palette";
-
     let newPalette = {
-      paletteName: paletteName,
-      id: paletteName.toLowerCase().replace(/ /g, "-"),
+      paletteName: newPaletteName,
+      id: newPaletteName.toLowerCase().replace(/ /g, "-"),
       emoji: "(:)",
       colors: colors,
     };
     addPalette(newPalette);
+    setColors([]);
+    setNewName("");
+    setNewPaletteName("");
     history.push("/");
+  };
+
+  const deleteColor = (name) => {
+    let filteredColors = colors.filter((color) => color.name !== name);
+    setColors(filteredColors);
+  };
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setColors(arrayMove(colors, oldIndex, newIndex));
   };
 
   return (
@@ -164,13 +178,21 @@ function NewPaletteForm({ addPalette }) {
           <Typography variant="h6" noWrap>
             New Palette
           </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleAddPalette}
-          >
-            Save Palette
-          </Button>
+          <ValidatorForm onSubmit={handleAddPalette}>
+            <TextValidator
+              name="newPaletteName"
+              value={newPaletteName}
+              onChange={(e) => setNewPaletteName(e.target.value)}
+              validators={["required", "isPaletteNameUnique"]}
+              errorMessages={[
+                "this field is required",
+                "palette name must be unique",
+              ]}
+            />
+            <Button variant="contained" color="primary" type="submit">
+              Save Palette
+            </Button>
+          </ValidatorForm>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -204,7 +226,7 @@ function NewPaletteForm({ addPalette }) {
         <ValidatorForm onSubmit={() => handleAddNewColor(currentColor)}>
           <TextValidator
             value={newName}
-            onChange={handleChange}
+            onChange={(e) => setNewName(e.target.value)}
             validators={["required", "isColorNameUnique", "isColorUnique"]}
             errorMessages={[
               "this field is required",
@@ -230,9 +252,12 @@ function NewPaletteForm({ addPalette }) {
         <div className={classes.drawerHeader} />
 
         {/* <div> */}
-        {colors.map((color) => {
-          return <DraggableColorBox color={color.color} name={color.name} />;
-        })}
+        <DraggableColorList
+          colors={colors}
+          deleteColor={deleteColor}
+          axis="xy"
+          onSortEnd={onSortEnd}
+        />
         {/* </div> */}
       </main>
     </div>
