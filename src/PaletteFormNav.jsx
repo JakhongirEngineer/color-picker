@@ -8,10 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Button } from "@material-ui/core";
-import { useState } from "react";
-import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import PaletteMetaForm from "./PaletteMetaForm";
 
 function PaletteFormNav({
   handleAddPalette,
@@ -21,15 +19,6 @@ function PaletteFormNav({
   palettes,
 }) {
   const history = useHistory();
-  const [newPaletteName, setNewPaletteName] = useState("");
-
-  useEffect(() => {
-    ValidatorForm.addValidationRule("isPaletteNameUnique", (value) => {
-      return palettes.every(
-        ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
-      );
-    });
-  });
 
   return (
     <div>
@@ -41,41 +30,35 @@ function PaletteFormNav({
         })}
         color="default"
       >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            New Palette
-          </Typography>
-          <ValidatorForm onSubmit={() => handleAddPalette(newPaletteName)}>
-            <TextValidator
-              name="newPaletteName"
-              value={newPaletteName}
-              onChange={(e) => setNewPaletteName(e.target.value)}
-              validators={["required", "isPaletteNameUnique"]}
-              errorMessages={[
-                "this field is required",
-                "palette name must be unique",
-              ]}
+        <Toolbar className={classes.navContainer}>
+          <div className={classes.navLeft}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={clsx(classes.menuButton, open && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap>
+              New Palette
+            </Typography>
+          </div>
+
+          <div className={classes.navRight}>
+            <PaletteMetaForm
+              handleAddPalette={handleAddPalette}
+              palettes={palettes}
             />
-            <Button variant="contained" color="primary" type="submit">
-              Save Palette
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => history.push("/")}
+            >
+              Go Back
             </Button>
-          </ValidatorForm>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => history.push("/")}
-          >
-            Go Back
-          </Button>
+          </div>
         </Toolbar>
       </AppBar>
     </div>

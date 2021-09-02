@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   },
 });
 
-function PaletteList({ palettes }) {
+function PaletteList({ palettes, deletePalette }) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -50,7 +50,7 @@ function PaletteList({ palettes }) {
         </nav>
         <div className={classes.palettes}>
           {palettes.map((palette) => {
-            return <MiniPalette {...palette} />;
+            return <MiniPalette {...palette} deletePalette={deletePalette} />;
           })}
         </div>
       </div>

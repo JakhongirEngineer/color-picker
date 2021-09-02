@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 const useStyles = makeStyles({
   root: {
     border: "1px solid black",
@@ -47,19 +47,21 @@ const useStyles = makeStyles({
 });
 
 function MiniPalette(props) {
-  const { colors, emoji, id, paletteName } = props;
+  const { colors, emoji, id, paletteName, deletePalette } = props;
   const classes = useStyles();
   const history = useHistory();
 
+  const handleDeletePalette = (e) => {
+    e.stopPropagation();
+    deletePalette(id);
+  };
+
   return (
-    // <Link
-    //   to={`/palette/${id}`}
-    //   style={{ textDecoration: "none", color: "white" }}
-    // >
     <div
       className={classes.root}
       onClick={() => history.push(`/palette/${id}`)}
     >
+      <HighlightOffIcon onClick={handleDeletePalette} />
       <div className={classes.colors}>
         {colors.map((color) => {
           return (

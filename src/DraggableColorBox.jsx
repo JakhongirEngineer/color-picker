@@ -38,7 +38,6 @@ const useStyles = makeStyles({
 
 const DraggableColorBox = SortableElement(({ color, name, deleteColor }) => {
   const classes = useStyles({ color });
-  console.log("color from box: ", color);
 
   const handleDeleteColor = (name) => {
     deleteColor(name);
