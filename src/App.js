@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { generatePalette } from "./colorHelpers";
 import NewPaletteForm from "./NewPaletteForm";
 import Palette from "./Palette";
@@ -101,6 +101,15 @@ function App() {
                       colorId={routeProps.match.params.colorId}
                     />
                   </Page>
+                )}
+              />
+              <Route
+                path="*"
+                render={() => (
+                  <h1>
+                    {" "}
+                    <Redirect to="/" />{" "}
+                  </h1>
                 )}
               />
             </Switch>

@@ -67,7 +67,15 @@ function NewPaletteForm({ addPalette, palettes }) {
 
   const addRandomColor = () => {
     const flattenedColors = palettes.map((palette) => palette.colors).flat();
-    const randomIndex = Math.floor(Math.random() * flattenedColors.length);
+    let randomIndex;
+    let duplicated = true;
+    while (duplicated) {
+      randomIndex = Math.floor(Math.random() * flattenedColors.length);
+      duplicated = colors.some(
+        (color) => color.name === flattenedColors[randomIndex]
+      );
+    }
+
     setColors([...colors, flattenedColors[randomIndex]]);
   };
 
