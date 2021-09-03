@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+
 import { IconButton, Snackbar } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+
 import ColorBox from "./ColorBox";
 import Navbar from "./Navbar";
-import "./Palette.css";
 import Footer from "./Footer";
+import "./Palette.css";
 
 function Palette({ palette }) {
   const [level, setLevel] = useState(500);

@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 import clsx from "clsx";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -8,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Button } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+
 import PaletteMetaForm from "./PaletteMetaForm";
 
 function PaletteFormNav({

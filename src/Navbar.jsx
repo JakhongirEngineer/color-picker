@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import "rc-slider/assets/index.css";
+import React from "react";
+
 import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 import { MenuItem, Select, makeStyles } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 import "./Navbar.css";
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: (props) => ({

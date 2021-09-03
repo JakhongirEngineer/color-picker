@@ -1,24 +1,25 @@
 import React from "react";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
+import { arrayMove } from "react-sortable-hoc";
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { Button } from "@material-ui/core";
-import { useState } from "react";
 
-import { useHistory } from "react-router-dom";
 import DraggableColorList from "./DraggableColorList";
-import { arrayMove } from "react-sortable-hoc";
 import PaletteFormNav from "./PaletteFormNav";
 import ColorPickerForm from "./ColorPickerForm";
 import NewPaletteFormStyles from "./NewPaletteFormStyles";
+import seedColors from "./seedColors";
 
 function NewPaletteForm({ addPalette, palettes }) {
   const classes = NewPaletteFormStyles();
   const [open, setOpen] = useState(true);
-  const [colors, setColors] = useState(palettes[0].colors);
+  const [colors, setColors] = useState(seedColors[0].colors);
   const history = useHistory();
   const MAX_PALETTE_SIZE = 20;
   let isPaletteFull = colors.length >= MAX_PALETTE_SIZE;

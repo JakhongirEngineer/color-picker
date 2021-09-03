@@ -1,7 +1,9 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+
+import { makeStyles } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     border: "1px solid black",

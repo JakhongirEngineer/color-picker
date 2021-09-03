@@ -1,7 +1,6 @@
+import { SortableElement } from "react-sortable-hoc";
 import { makeStyles } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import React from "react";
-import { SortableElement } from "react-sortable-hoc";
 
 const useStyles = makeStyles({
   root: (props) => ({

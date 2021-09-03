@@ -1,21 +1,21 @@
 import React, { useState } from "react";
-import { Avatar, Button, makeStyles } from "@material-ui/core";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Link } from "react-router-dom";
-import MiniPalette from "./MiniPalette";
-import bg from "./styles/bg.svg";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+
+import { Avatar, Button, makeStyles } from "@material-ui/core";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
 import CloseIcon from "@material-ui/icons/Close";
+
+import MiniPalette from "./MiniPalette";
+import bg from "./styles/bg.svg";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {

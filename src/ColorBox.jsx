@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import "./ColorBox.css";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-
 import { useHistory } from "react-router-dom";
+
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import chroma from "chroma-js";
+
+import "./ColorBox.css";
 
 function ColorBox({
   backgroundColor,
