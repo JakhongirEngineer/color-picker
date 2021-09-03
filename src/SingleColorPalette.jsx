@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import ColorBox from "./ColorBox";
 import Footer from "./Footer";
 import Navbar from "./Navbar";

@@ -76,7 +76,10 @@ export default makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  navLeft: {},
+  navLeft: {
+    display: "flex",
+    alignItems: "center",
+  },
   navRight: {
     display: "flex",
     flexDirection: "row",

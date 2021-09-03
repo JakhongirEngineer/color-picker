@@ -135,6 +135,7 @@ function NewPaletteForm({ addPalette, palettes }) {
           deleteColor={deleteColor}
           axis="xy"
           onSortEnd={onSortEnd}
+          distance={10}
         />
         {/* </div> */}
       </main>

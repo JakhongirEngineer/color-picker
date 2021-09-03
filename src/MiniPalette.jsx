@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     border: "1px solid black",
     backgroundColor: "white",
@@ -10,6 +10,9 @@ const useStyles = makeStyles({
     padding: "0.5rem",
     position: "relative",
     overflow: "hidden",
+    [theme.breakpoints.down("sm")]: {
+      width: "10rem",
+    },
 
     "&:hover": {
       cursor: "pointer",
@@ -44,16 +47,16 @@ const useStyles = makeStyles({
     margin: "0 auto",
     marginBottom: "-3.5px",
   },
-});
+}));
 
 function MiniPalette(props) {
-  const { colors, emoji, id, paletteName, deletePalette } = props;
+  const { colors, emoji, id, paletteName, openDialog } = props;
   const classes = useStyles();
   const history = useHistory();
 
-  const handleDeletePalette = (e) => {
+  const handleOpenDialog = (e) => {
     e.stopPropagation();
-    deletePalette(id);
+    openDialog(id);
   };
 
   return (
@@ -61,7 +64,7 @@ function MiniPalette(props) {
       className={classes.root}
       onClick={() => history.push(`/palette/${id}`)}
     >
-      <HighlightOffIcon onClick={handleDeletePalette} />
+      <HighlightOffIcon onClick={handleOpenDialog} />
       <div className={classes.colors}>
         {colors.map((color) => {
           return (

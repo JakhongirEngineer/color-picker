@@ -40,6 +40,7 @@ function PaletteMetaForm({ palettes, handleAddPalette }) {
   const handlePickerSelect = (e) => {
     setEmoji(e.native);
     handleAddPalette(newPaletteName, e.native);
+    setOpenEmoji(false);
   };
 
   return (

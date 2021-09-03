@@ -1,18 +1,54 @@
-import { Button, makeStyles } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
+import { Avatar, Button, makeStyles } from "@material-ui/core";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Link } from "react-router-dom";
 import MiniPalette from "./MiniPalette";
+import bg from "./styles/bg.svg";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
-const useStyles = makeStyles({
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
+import CloseIcon from "@material-ui/icons/Close";
+
+const useStyles = makeStyles((theme) => ({
+  "@global": {
+    ".remove-btn": {
+      marginRight: "0.5rem",
+    },
+    ".item-enter": {
+      opacity: "0.1",
+    },
+    ".item-enter-active": {
+      opacity: 1,
+      transition: "opacity 500ms ease-in-out",
+    },
+    ".item-exit": {
+      opacity: 1,
+    },
+    ".item-exit-active": {
+      opacity: 0,
+      transition: "opacity 500ms ease-in-out",
+    },
+  },
   root: {
-    backgroundColor: "red",
     display: "flex",
     justifyContent: "center",
     alignItems: "flex-start",
-    height: "100vh",
+    minHeight: "100vh",
+    backgroundColor: "#292BFF",
+    backgroundImage: `url(${bg})`,
+    backgroundAttachment: "fixed",
+    backgroundSize: "cover",
   },
   container: {
-    width: "50%",
+    width: "80%",
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
@@ -30,13 +66,37 @@ const useStyles = makeStyles({
     boxSizing: "border-box",
     width: "100%",
     display: "grid",
-    gridTemplateColumns: "repeat(3,30%)",
-    gridGap: "5%",
+    gridTemplateColumns: "repeat(3, 30%)",
+    gridGap: "5rem",
+    justifyContent: "center",
+
+    [theme.breakpoints.down("md")]: {
+      gridTemplateColumns: "repeat(2, 40%)",
+      gridGap: "3rem",
+    },
   },
-});
+}));
 
 function PaletteList({ palettes, deletePalette }) {
   const classes = useStyles();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [deletedPaletteId, setDeletedPaletteId] = useState("");
+
+  const openDialog = (id) => {
+    setIsDeleteDialogOpen(true);
+    setDeletedPaletteId(id);
+  };
+
+  const closeDialog = () => {
+    setDeletedPaletteId("");
+    setIsDeleteDialogOpen(false);
+  };
+
+  const handleDeletePalette = () => {
+    deletePalette(deletedPaletteId);
+    closeDialog();
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -48,12 +108,42 @@ function PaletteList({ palettes, deletePalette }) {
             </Button>
           </Link>
         </nav>
-        <div className={classes.palettes}>
+        <TransitionGroup className={classes.palettes}>
           {palettes.map((palette) => {
-            return <MiniPalette {...palette} deletePalette={deletePalette} />;
+            return (
+              <CSSTransition key={palette.id} timeout={500} classNames="item">
+                <MiniPalette {...palette} openDialog={openDialog} />
+              </CSSTransition>
+            );
           })}
-        </div>
+        </TransitionGroup>
       </div>
+      <Dialog open={isDeleteDialogOpen} aria-labelledBy="delete-dialog-title">
+        <DialogTitle id="delete-dialog-title">
+          Do you want to delete this Palette?
+        </DialogTitle>
+        <DialogContent>
+          <List>
+            <ListItem button onClick={() => handleDeletePalette()}>
+              <ListItemAvatar>
+                <Avatar style={{ backgroundColor: "rgba(0,0,255,0.5" }}>
+                  <DoneOutlineIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Delete" />
+            </ListItem>
+
+            <ListItem button autoFocus onClick={() => closeDialog()}>
+              <ListItemAvatar>
+                <Avatar style={{ backgroundColor: "rgba(0,255,0,0.5" }}>
+                  <CloseIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Cancel" />
+            </ListItem>
+          </List>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
